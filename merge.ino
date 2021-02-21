@@ -96,9 +96,17 @@ LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 
 int isJump = 0;
 
+int start = 0;
+
 unsigned long time;
 
-byte image[8] = {0b01110, 0b10001, 0b11111, 0b00000, 0b00000, 0b00000, 0b00000, 0b00000};
+unsigned long int render_time = 100;
+
+unsigned long int jump_time = 300;
+
+int points = 0;
+
+byte cloud[8] = {0b01110, 0b10001, 0b11111, 0b00000, 0b00000, 0b00000, 0b00000, 0b00000};
 
 byte pteroDown[8] = {0b00000, // ptero with wings down
                	     0b01000, 
@@ -130,24 +138,91 @@ byte cactus1[8] = {
 };
 
 
+
+byte cactus2[8] = {
+	0b00000,
+	0b00100,
+	0b10101,
+	0b10101,
+	0b10111,
+	0b11100,
+	0b00100,
+	0b00100
+};
+
+byte cactus3[8] = {
+  	0b00000,
+	0b00000,
+	0b00000,
+	0b00010,
+	0b01010,
+	0b11011,
+	0b11111,
+  	0b01010
+};
+
+void update_menu(){
+  	lcd.setCursor(15, 0);
+  	lcd.print(String(points));
+}
+
+byte* choose_cactus(){
+  	int n = random(0,3);
+  	byte* selected;
+  switch(n){
+  		case 0:
+  			selected = cactus1;
+  			break;
+  		case 1:
+  			selected = cactus2;
+  			break;
+ 		case 2:
+  			selected = cactus3;
+  			break;
+  	return selected;
+    
+  }
+}
+
 struct Obst{
      int x;
      int y;
   	 int type;
+  	 byte* image;
+  	 unsigned long int time;
 } Obst;
 
+void menu(){
+  	lcd.clear();
+    lcd.setCursor(0, 0);
+  	lcd.write('-');
+  	lcd.print("Play!");
+  	lcd.setCursor(1, 1);
+  	lcd.print("Instructions");
+  	while(1){
+      if(digitalRead(10)){
+        delay(100);
+        lcd.clear();
+        break;
+      }
+      if(digitalRead(8)){
+        delay(50);
+        lcd.clear();
+        break;
+      }
+  	}
+
+}
+
 void game_over(){
-  do{
   lcd.clear();
   lcd.print("GAME OVER!");
-  delay(50);
-  }while(!digitalRead(8));
+  delay(500);
   lcd.clear();
+  menu();
 }
 
 //time to make our charcaters and scenario
-
-byte cloud[] = {0b01110, 0b10001, 0b11111, 0b00000, 0b00000, 0b00000, 0b00000, 0b00000};
 
 byte player[9]= {0b11111, 0b00000, 0b00000, 0b00000, 0b11111, 0b11111, 0b11111, 0b11111, 0b11111};
 
@@ -163,51 +238,56 @@ void move_cloud(struct Obst* o){
            o->x = BEGINNING;
            return;
     	}
+  		if(o->x == 1 && isJump)
+    		return;
     	 lcd.setCursor(o->x,o->y);
     	 lcd.write(' ');
-    	 lcd.createChar(4, image);
+    	 lcd.createChar(4, o->image);
  		 lcd.setCursor(o->x-1, o->y);
     	 lcd.write(byte(4));
     	 (o->x)--;
-    	 delay(50);
 }
   
  void move_ptero(struct Obst* o, int ptero2){
    if(o->x == 1){
      if((!isJump && o->y == 1) || (isJump && o->y == 0)){
        game_over();
-      } 
+     }else{
+      points++;
+     }
    }
 	if(o->x == 0){
+      	   start++;
            del(o->x,o->y);
            return;
     	}
     	 lcd.setCursor(o->x,o->y);
     	 lcd.write(' ');
-    	 lcd.createChar(5, pteroUp);
+    	 lcd.createChar(5, o->image);
  		 lcd.setCursor(o->x-1, o->y);
     	 lcd.write(byte(5));
     	 (o->x)--;
-    	 delay(50);
 }
 
 void move_cactus(struct Obst* o){
    if(o->x == 1){
      if(!isJump){
        game_over();
-      } 
+     }else{
+      	points++; 
+     }
    }
 	if(o->x == 0){
+      	   start++;
            del(o->x,o->y);
            return;
     }
     	 lcd.setCursor(o->x,o->y);
     	 lcd.write(' ');
-    	 lcd.createChar(6, cactus1);
+    	 lcd.createChar(6, o->image);
  		 lcd.setCursor(o->x-1, o->y);
     	 lcd.write(byte(6));
     	 (o->x)--;
-    	 delay(50);
 }
    void move(int type, struct Obst* obst){
       switch(type){
@@ -229,11 +309,11 @@ class Dino{
   
   public:
   
-  byte dino_l[8] = {0b00000, 0b00000, 0b01111, 0b01101, 0b01111, 0b01100, 0b11111, 0b01000};
+  byte dino_l[8] = {0b00000, 0b00000, 0b10000, 0b10111, 0b10101, 0b01111, 0b01100, 0b01010};
 
   byte dino_r[8] = {0b00000, 0b00000, 0b01111, 0b01101, 0b01111, 0b01100, 0b11111, 0b00001};
   
-  byte dino_j[8]= {0b00000, 0b00000, 0b01111, 0b01101, 0b01111, 0b01100, 0b11111, 0b01001};  
+  byte dino_j[8]= {0b00000, 0b00000, 0b00000, 0b00000, 0b10111, 0b11101, 0b01111, 0b10100};  
 
   Dino(){
     lcd.begin(16,2);
@@ -280,7 +360,7 @@ class Dino{
   
   void check(){
   	int input = digitalRead(8);
-    if(isJump && millis() - time >= 500){
+    if(isJump && millis() - time >= jump_time){
      	 isJump = 0;
     }
   	if(input == 1){
@@ -299,17 +379,23 @@ Dino dino;
 
 void setup(){
   	pinMode(6, OUTPUT);
+  	pinMode(10, INPUT);
+  	pinMode(13, INPUT);
   	digitalWrite(6, LOW);
   	cld.type = 1;
 	cld.x = BEGINNING;
 	cld.y = 0;
+  	cld.image = cloud;
+  	cld.time = millis();
   	list = (struct Obst*) malloc(sizeof(struct Obst)*10);
+	randomSeed(digitalRead(13));
+  	menu();
 }
 
 int counter = 0;
 
 void loop(){
-
+  
   dino.move_dino();
   
   move(cld.type, &cld);
@@ -322,6 +408,8 @@ void loop(){
     	new_ptero.type = 0;
     	new_ptero.x = BEGINNING;
     	new_ptero.y = random(0,2);
+    	new_ptero.image = pteroUp;
+    	new_ptero.time = millis();
     	move(new_ptero.type, &new_ptero);
     	list[counter] = new_ptero;
     	counter++;
@@ -331,14 +419,18 @@ void loop(){
     	new_cactus.type = 2;
     	new_cactus.x = BEGINNING;
     	new_cactus.y = 1;
+    	new_cactus.image = choose_cactus();
+    	new_cactus.time = millis();
     	move(new_cactus.type, &new_cactus);
     	list[counter] = new_cactus;
     	counter++;
     	break;
   }
-  for(int i = 0; i < counter; i++){
+  for(int i = start; i < counter; i++){
     dino.check();
    	move(list[i].type, &(list[i]));
   }
+  update_menu();
+  delay(render_time);
       
 }
