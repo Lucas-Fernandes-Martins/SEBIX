@@ -94,9 +94,13 @@ LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 
 #define BEGINNING 15;
 
+struct Obst* list;
+
 int isJump = 0;
 
 int start = 0;
+
+int counter = 0;
 
 unsigned long time;
 
@@ -162,8 +166,16 @@ byte cactus3[8] = {
 };
 
 void update_menu(){
+  if(points < 10){
   	lcd.setCursor(15, 0);
   	lcd.print(String(points));
+  }else{
+     lcd.setCursor(15, 0);
+     int d = points / 10;
+  	lcd.print(String(points%10));
+    lcd.setCursor(14, 0);
+    lcd.print(String(d));
+  }
 }
 
 byte* choose_cactus(){
@@ -203,6 +215,10 @@ void menu(){
       if(digitalRead(10)){
         delay(100);
         lcd.clear();
+        list = (struct Obst*) malloc(sizeof(struct Obst)*10);
+        start = 0;
+  		counter = 0;
+        update_menu();
         break;
       }
       if(digitalRead(8)){
@@ -216,8 +232,11 @@ void menu(){
 
 void game_over(){
   lcd.clear();
+  lcd.setCursor(0,0);
   lcd.print("GAME OVER!");
-  delay(500);
+  lcd.setCursor(0,1);
+  lcd.print("Score: " + String(points));
+  delay(1000);
   lcd.clear();
   menu();
 }
@@ -372,8 +391,6 @@ class Dino{
 };
 
 struct Obst cld;
-
-struct Obst* list;
    
 Dino dino;
 
@@ -391,8 +408,6 @@ void setup(){
 	randomSeed(digitalRead(13));
   	menu();
 }
-
-int counter = 0;
 
 void loop(){
   
