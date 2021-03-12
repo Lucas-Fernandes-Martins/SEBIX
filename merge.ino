@@ -271,6 +271,7 @@ void move_cloud(struct Obst* o){
    if(o->x == 1){
      if((!isJump && o->y == 1) || (isJump && o->y == 0)){
        game_over();
+       return;
      }else{
       points++;
      }
@@ -292,6 +293,7 @@ void move_cactus(struct Obst* o){
    if(o->x == 1){
      if(!isJump){
        game_over();
+       return;
      }else{
       	points++; 
      }
