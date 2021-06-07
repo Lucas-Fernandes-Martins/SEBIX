@@ -24,7 +24,7 @@ No menu do jogo é possível acessar uma área de instruções, mas o botão da 
 
 <h2> Imagem da Simulação<h2>
   
-  ![Gameplay][gameplay.png]
+  ![Gameplay](gameplay.png)
   
 <h2> Membros </h2>
 
