@@ -14,6 +14,10 @@ Para o processamento do jogo usamos um Arduino Uno R3. Existe um LCD 16x2 para d
 
 ![PCB](pcb0.jpeg)
 
+<h2> Esquematico<h2>
+  
+  ![Esquematico](esquematico.jpeg)
+
 <h2> Como Usar </h2>
 
 No menu do jogo é possível acessar uma área de instruções, mas o botão da esquerda sobe o cursor no menu e faz com que o dinossauro pule, o botão do meio abaixa o cursor no menu e faz com que o dinossauro abaixe e o botão da direita confirma a opção no menu e renicia o jogo.
