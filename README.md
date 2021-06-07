@@ -16,7 +16,7 @@ Para o processamento do jogo usamos um Arduino Uno R3. Existe um LCD 16x2 para d
 
 <h2> Esquemático<h2>
   
-  ![Esquematico](esquematico.jpeg =250x250)
+  ![Esquematico](esquematico.jpeg)
 
 <h2> Como Usar </h2>
 
