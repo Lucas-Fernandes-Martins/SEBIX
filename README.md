@@ -8,7 +8,7 @@ Jogo do dinossauro no Arduino implementado com uma LCD e botões para controle n
 
 <h2> Tecnologias Usadas </h2>
 
-Para o processamento do jogo usamos um Arduino Uno R3. Existe um LCD 16x2 para display do dinossauro e obstáculos do jogo. Três botões para controle do jogo. Um potenciômetro para controle do brilho do Arduino. Foi usado a linguagem C++ para programação no Arduino, com a blibioteca Liquid Crystal.
+Para o processamento do jogo usamos um Arduino Uno R3. Existe um LCD 16x2 para display do dinossauro e obstáculos do jogo. Três botões para controle do jogo. Um potenciômetro para controle do brilho do Arduino. Foi usado a linguagem C++ para programação no Arduino, com a biblioteca Liquid Crystal. O software Eagle foi usado para produção da PCB e o Fusion para a produção de uma caixa para armazenar todos os componentes.
 
 <h2> Membros </h2>
 
