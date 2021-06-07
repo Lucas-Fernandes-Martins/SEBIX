@@ -10,7 +10,7 @@ Jogo do dinossauro da Google feito no Arduino implementado com uma LCD para disp
 
 Para o processamento do jogo usamos um Arduino Uno R3. Existe um LCD 16x2 para display do dinossauro e obstáculos do jogo. Três botões para controle do jogo. Um potenciômetro para controle do brilho do Arduino. Um buzzer para emitir sons em certos momentos do jogo. Foi usado a linguagem C++ para programação no Arduino, com a biblioteca Liquid Crystal. O software Eagle foi usado para produção da PCB e o Fusion para a produção de uma caixa para armazenar todos os componentes.
 
-![PCB com baixa](pcb1.jpeg)
+![PCB com a caixa](pcb1.jpeg)
 
 ![PCB](pcb0.jpeg)
 
